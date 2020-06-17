@@ -1,0 +1,36 @@
+{
+    "name": "a-shch/yii2-tinymce-widget",
+    "description": "TinyMCE Widget for Yii2",
+    "stability": "alpha",
+    "type": "yii2-extension",
+    "keywords": [
+        "yii",
+        "yii2",
+        "extension",
+        "widget",
+        "tinymce"
+    ],
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "A-Shcherbyna",
+            "email": "a@shcherbyna.dp.ua",
+            "homepage": "https://shcherbyna.dp.ua/",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "yiisoft/yii2": "2.*",
+        "tinymce/tinymce": ">=4",
+        "a-shch/yii2-site-core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ashch\\tinymce\\": "src"
+        }
+    },
+    "repositories": [
+    ]
+}
