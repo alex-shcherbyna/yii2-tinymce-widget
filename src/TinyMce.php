@@ -37,17 +37,52 @@ class TinyMce extends InputWidget
             'insertdatetime media nonbreaking save table contextmenu directionality',
             'template paste textcolor'
         ],
-        //'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor | code',
-        'toolbar' => 'undo redo | styleselect | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl | code',
+        'toolbar' => [
+            ' styleselect | bold italic  | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify |  numlist bullist | forecolor backcolor',
+            'formatgroup paragraphgroup insertgroup | undo redo |  insertfile image media template link anchor codesample  | fullscreen | preview  |code',
+        ],
+        'toolbar_groups' => [
+            'formatgroup' => [
+                'icon' => 'format',
+                'tooltip' => 'Formatting',
+                'items' => 'bold italic underline strikethrough | forecolor backcolor | superscript subscript | removeformat'
+            ],
+            'paragraphgroup' => [
+
+                'icon' => 'paragraph',
+                'tooltip' => 'Paragraph format',
+                'items' => 'h1 h2 h3 | bullist numlist | alignleft aligncenter alignright | indent outdent | ltr rtl'
+            ],
+            'insertgroup' => [
+                'icon' => 'plus',
+                'tooltip' => 'Insert',
+                'items' => 'link image pagebreak | template | emoticons charmap hr'
+            ],
+        ],
         'toolbar_sticky' => true,
         'toolbar_items_size' => 'small',
         'image_advtab' => true,
         'relative_urls' => false,
+        'cleanup' => false,
+        'valid_elements' => <<<VALID_ELEMNTS
+div[*],span[*],a[*],ol[*],ul[*],li[*],img[*],p[*],section[class],article[class],hr
+,form[*],button[*],input[*],label[*],select[*],option[*]
+,font[*],h1[*],h2[*],h3[*],h4[*],h5[*],h6[*]
+,defs[*],clippath[*],use[*],svg[*],path[*],g[*],
+,table[*],tbody[*],tr[*],th[*],td[*],strong[*],br[*],b,i[*],embeded[*]
+VALID_ELEMNTS
+
     ];
 
     /** @var array Widget settings  - combines defaultOptions and clientOptions */
     private $_options = [];
-    private $extendedValidElements = 'div[*],span[*],svg[*],path[*],g[*],img[href|src|name|title|onclick|align|alt|title|width|height|vspace|hspace],font[face|size|color|style],iframe[id|class|width|size|noshade|src|height|frameborder|border|marginwidth|marginheight|target|scrolling|allowtransparency]';
+    private $extendedValidElements = <<<EXTENDED_VALID_ELEMNTS
+div[*],span[*],ol[*],ul[*],li[*],img[*],p[class],section[class],article[class],hr
+,h1[*],h2[*],h3[*],h4[*],h5[*],h6[*]
+,img[href|src|name|title|onclick|align|alt|title|width|height|vspace|hspace]
+,font[face|size|color|style]
+,iframe[id|class|width|size|noshade|src|height|frameborder|border|marginwidth|marginheight|target|scrolling|allowtransparency]
+EXTENDED_VALID_ELEMNTS;
 
     const DEFAULT_LANGUAGE = 'en';
 
@@ -64,7 +99,6 @@ class TinyMce extends InputWidget
     public $fileManager; // TODO delet this property use $loadFileManager
     public $loadFileManager;
     public $loadTemplates;
-    
     public $triggerSaveOnBeforeValidateForm = true;
 
     public function init()
@@ -74,7 +108,6 @@ class TinyMce extends InputWidget
         $this->_options = array_merge(self::$defaultOptions, $this->clientOptions);
         $this->checkAjustLanguage();
         $this->checkAjustContentCss();
-
     }
 
     public function run()
@@ -148,7 +181,7 @@ class TinyMce extends InputWidget
             $this->_options['external_plugins'] = array_merge($this->_options['external_plugins'], $fileManagerPlugins);
         }
     }
-    
+
     protected function registerTemplates()
     {
         $this->_options['templates'] = Template::getTinyMCETemplates();
@@ -174,7 +207,6 @@ class TinyMce extends InputWidget
                 $this->_options['language'] = self::DEFAULT_LANGUAGE;
             }
         }
-        
     }
 
     protected function checkAjustContentCss()

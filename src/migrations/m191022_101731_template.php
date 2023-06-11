@@ -8,7 +8,14 @@ use ashch\sitecore\migrations\Migration;
 class m191022_101731_template extends Migration
 {
 
+    protected $table_name; //= '{{%template}}';
     protected $table_id = 'template';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->table_name = '{{%' . $this->table_id . '}}';
+    }
 
     /**
      * {@inheritdoc}
@@ -30,6 +37,14 @@ class m191022_101731_template extends Migration
             'created_at' => $this->integer()->unsigned()->Comment('Created at:'),
             'updated_at' => $this->integer()->unsigned()->Comment('Updated at:'),
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        $this->dropTable($this->table_name);
     }
 
 }

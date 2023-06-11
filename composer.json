@@ -23,7 +23,7 @@
     "prefer-stable": true,
     "require": {
         "yiisoft/yii2": "2.*",
-        "tinymce/tinymce": ">=4",
+        "tinymce/tinymce": "5.*",
         "a-shch/yii2-site-core": "*"
     },
     "autoload": {
